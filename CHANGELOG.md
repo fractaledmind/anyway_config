@@ -2,6 +2,24 @@
 
 ## master
 
+- Add type coercion support. ([@palkan][])
+
+Example:
+
+```ruby
+class CoolConfig < Anyway::Config
+  attr_config :port, :user
+
+  coerce_types port: :string, user: {dob: :date}
+end
+
+ENV["COOL_USER__DOB"] = "1989-07-01"
+
+config = CoolConfig.new({port: 8080})
+config.port == "8080" #=> true
+config.user["dob"] == Date.new(1989, 7, 1) #=> true
+```
+
 - Do not dup modules/classes passed as configuration values. ([@palkan][])
 
 - Handle loading empty YAML config files. ([@micahlee][])
